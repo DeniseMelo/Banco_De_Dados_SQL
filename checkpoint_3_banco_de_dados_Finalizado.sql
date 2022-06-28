@@ -9,10 +9,6 @@ DROP TABLE IF EXISTS Fornecedores;
 DROP TABLE IF EXISTS Faturas;
 DROP TABLE IF EXISTS Transportadoras;
 DROP TABLE IF EXISTS Funcionarios;
-DROP TABLE IF EXISTS Departamento;
-DROP TABLE IF EXISTS Gestores;
-DROP TABLE IF EXISTS Departamento;
-DROP TABLE IF EXISTS Gestores;
 DROP TABLE IF EXISTS Endereco;
 DROP TABLE IF EXISTS Usuarios;
 
@@ -40,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Enderecos
     cidade VARCHAR(45) NOT NULL,
     cep VARCHAR (10),
     uf CHAR(2) NOT NULL,
-    idUsuarios INT UNSIGNED NOT NULL,
+    idUsuarios INT UNSIGNED,
     CONSTRAINT PK_Enderecos_id PRIMARY KEY (id),
 	CONSTRAINT FK_Enderecos_Usuarios_idUsuarios FOREIGN KEY (idUsuarios) REFERENCES Usuarios (id)
 );
@@ -48,7 +44,7 @@ CREATE TABLE IF NOT EXISTS Enderecos
 CREATE TABLE IF NOT EXISTS Funcionarios
 (
     id INT UNSIGNED AUTO_INCREMENT,
-    idDepartamento INT UNSIGNED NOT NULL,
+    idDepartamento INT UNSIGNED,
     nome VARCHAR(45) NOT NULL,
     sobrenome VARCHAR(45) NOT NULL,
     telefone VARCHAR(24) NOT NULL,
@@ -79,9 +75,8 @@ CREATE TABLE IF NOT EXISTS Departamento
 (
     id INT UNSIGNED AUTO_INCREMENT,
     nome_departamento VARCHAR(45) NOT NULL,
-    idGestor INT UNSIGNED NOT NULL,
+    idGestor INT UNSIGNED,
     CONSTRAINT PK_Departamento_id PRIMARY KEY (id)
-    
 );
 
 CREATE TABLE IF NOT EXISTS Transportadoras
@@ -122,8 +117,8 @@ quantidade_por_unidade INT NOT NULL,
 preco_unitario DOUBLE,
 unidades_estoque SMALLINT NOT NULL,
 unidades_solicitadas SMALLINT,
-idCategoria_Calcados INT UNSIGNED NOT NULL,
-idFornecedores INT UNSIGNED NOT NULL,
+idCategoria_Calcados INT UNSIGNED,
+idFornecedores INT UNSIGNED,
 CONSTRAINT PK_PRODUTOS_id PRIMARY KEY (id),
 CONSTRAINT FK_Produtos_Categoria_Calcados_idCategoria_Calcados FOREIGN KEY (IdCategoria_Calcados) REFERENCES Categoria_Calcados (id),
 CONSTRAINT FK_Produtos_Fornecedores_idFornecedores FOREIGN KEY (idFornecedores) REFERENCES Fornecedores (id)
@@ -141,7 +136,7 @@ CREATE TABLE IF NOT EXISTS Faturas
     pais_envio VARCHAR(15),
     idTransportadoras INT UNSIGNED,
     idFuncionarios INT UNSIGNED,
-    idUsuarios INT UNSIGNED NOT NULL,
+    idUsuarios INT UNSIGNED,
 	CONSTRAINT PK_Faturas_id PRIMARY KEY (id),
     CONSTRAINT FK_Faturas_Transportadoras_idTransportadoras FOREIGN KEY (IdTransportadoras) REFERENCES Transportadoras (id),
 	CONSTRAINT FK_Faturas_Funcionarios_idFuncionarios FOREIGN KEY (idFuncionarios) REFERENCES Funcionarios (id),
@@ -153,11 +148,9 @@ CREATE TABLE IF NOT EXISTS Detalhes_Faturas
 preco_unitario FLOAT,
 quantidade SMALLINT,
 desconto FLOAT,
-faturas_id INT UNSIGNED NOT NULL, 
-produtos_id INT UNSIGNED NOT NULL,
-CONSTRAINT PK_Detalhes_Faturas_id PRIMARY KEY (faturas_id, produtos_id),
-CONSTRAINT FK_Detalhes_Faturas_idFaturas FOREIGN KEY (faturas_id) REFERENCES Faturas (id),
-CONSTRAINT FK_Detalhes_Produtos_idProdutos FOREIGN KEY (produtos_id) REFERENCES Produtos (id)
+faturas_id INT, 
+produtos_id INT,
+CONSTRAINT PK_Detalhes_Faturas_id PRIMARY KEY (faturas_id, produtos_id)
 );
 
 ALTER TABLE Departamento ADD CONSTRAINT FK_Departamento_Gestores_ FOREIGN KEY (idGestor) REFERENCES Gestores (id);
@@ -231,31 +224,27 @@ INSERT INTO Transportadoras (empresa,telefone) VALUES('Transportando','555199664
 INSERT INTO Transportadoras (empresa,telefone) VALUES('Super Fast','5551996644310');
 INSERT INTO Transportadoras (empresa,telefone) VALUES('Indo Rapido','5551996644333');
 
-INSERT INTO Gestores (nome_gestor, sobrenome, telefone, cpf, data_nascimento) VALUES('Ladeira', 'Rapido','5551996643333', '00000023430', '2001-03-01');
 
-INSERT INTO Departamento (nome_departamento, idGestor) VALUES('Tristeza Solitaria', 1);
-
-
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'Carolina', '5551996644351', '02002012002', '2000-02-01','2022-10-01', 1);
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'Paula', '5551996644352', '02002012003', '2001-03-01','2022-10-01', 1);
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'Catarina', '5551996644353', '02002012004', '2002-04-01','2022-10-01', 1);
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'Julia', '5551996644354', '02002012005', '2003-05-01','2022-10-01', 1);
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'Beatriz', '5551996644355', '02002012006', '2004-06-01','2022-10-01', 1);
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'Guilhermina', '5551996644356', '02002012007', '2001-07-01','2022-10-01', 1);
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'Carla', '5551996644357', '02002012008', '2002-08-01','2022-10-01', 1);
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'Cabreira', '5551996644358', '02002012009', '2003-09-01','2022-10-01', 1);
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'Nordica', '5551996644359', '02002012000', '2004-11-01','2022-10-01', 1);
-INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao, idDepartamento) 
-VALUES ('Ana', 'perfeita', '5551996644350', '02002012001', '2001-12-01','2022-10-01', 1);
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'Carolina', '5551996644351', '02002012002', '2000-02-01','2022-10-01');
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'Paula', '5551996644352', '02002012003', '2001-03-01','2022-10-01');
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'Catarina', '5551996644353', '02002012004', '2002-04-01','2022-10-01');
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'Julia', '5551996644354', '02002012005', '2003-05-01','2022-10-01');
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'Beatriz', '5551996644355', '02002012006', '2004-06-01','2022-10-01');
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'Guilhermina', '5551996644356', '02002012007', '2001-07-01','2022-10-01');
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'Carla', '5551996644357', '02002012008', '2002-08-01','2022-10-01');
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'Cabreira', '5551996644358', '02002012009', '2003-09-01','2022-10-01');
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'Nordica', '5551996644359', '02002012000', '2004-11-01','2022-10-01');
+INSERT INTO Funcionarios (nome, sobrenome, telefone, cpf, data_nascimento, data_contratacao) 
+VALUES ('Ana', 'perfeita', '5551996644350', '02002012001', '2001-12-01','2022-10-01');
 
 INSERT INTO Usuarios (nome, sobrenome, telefone1, telefone2, email, senha, cpf, data_nascimento)
 VALUES ('Toninho', 'da Lua', '551134843722', NULL, 'tonho@email.com.br', '12345678', '83792699032', '1996-03-22');
@@ -342,32 +331,31 @@ INSERT INTO Detalhes_Faturas(preco_unitario, quantidade, desconto, faturas_id, p
 VALUES (36.99, 5, NULL, 10, 10);
 
 
--- SELECT * FROM Calcados.Produtos;
--- SELECT * FROM Calcados.Fornecedores;
--- SELECT * FROM Calcados.Categoria_Calcados;
+SELECT * FROM Calcados.Produtos;
+SELECT * FROM Calcados.Fornecedores;
+SELECT * FROM Calcados.Categoria_Calcados;
 SELECT * FROM Calcados.Transportadoras;
--- SELECT * FROM Usuarios;
--- SELECT * FROM Enderecos;
--- SELECT * FROM Faturas;
+SELECT * FROM Usuarios;
+SELECT * FROM Enderecos;
+SELECT * FROM Faturas;
 SELECT * FROM Detalhes_Faturas;
-
 
 CREATE VIEW vw_visaoEstoque AS
 SELECT 
-p.id,
 p.nome, 
-FORMAT (SUM(quantidade_por_unidade * unidades_estoque * preco_unitario), 'N2') AS "Valor total em Estoque", 
+SUM(quantidade_por_unidade * unidades_estoque * preco_unitario) AS "Valor total em Estoque", 
 CONCAT(f.id, ' - ', empresa, ' - ', endereco, ' - ', cidade, ' - ', cep, ' - ', pais) AS "Endereço Completo", 
 f.telefone, 
 c.nome_cat, 
 c.descricao, 
 c.imagem 
 FROM Produtos as p
-INNER JOIN Fornecedores as f
-ON p.idFornecedores = f.id
-INNER JOIN Categoria_Calcados c
-ON p.idCategoria_Calcados = c.id
-GROUP BY p.nome,
+INNER JOIN  Fornecedores as f
+ON p.id = f.id
+INNER JOIN Categoria_Calcados as c
+on p.idCategoria_Calcados = c.id
+GROUP BY 
+p.nome,
 p.id,
 f.id,
 "Valor total em Estoque",
@@ -376,15 +364,8 @@ f.telefone,
 c.nome_cat, 
 c.descricao, 
 c.imagem;
+
 SELECT * FROM vw_visaoEstoque;
-
-
-UPDATE Fornecedores SET
-    Empresa = 'Nova Inclusao'
-WHERE id=1;
-
-DELETE FROM Fornecedores WHERE id = 11;
-
 
 DELIMITER $$
 CREATE PROCEDURE selecionarTabela(IN p_id SMALLINT)
@@ -404,5 +385,3 @@ END $$
 DELIMITER  ;
 
 CALL selecionarTabela(1);
-
-
