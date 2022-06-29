@@ -11,6 +11,8 @@ Denise Capitaneo https://github.com/decapitaneo
 
 Kelvin Maciel https://github.com/KelvinBED
 
+matheus lazaro https://github.com/Matheuslazaro13
+
 <div align="center">
 <img src="https://github.com/DeniseMelo/Banco_De_Dados_SQL/blob/main/imagens/banco2.gif" width="400px" height= "400px" />
 </div>
